@@ -8,7 +8,7 @@ monster_names = ('Dragon', 'Ork', 'The Dead', "Puss in boots", "Shrek")
 
 
 class Creature:
-    '''Родительский класс сушество.'''
+    """Родительский класс сушество."""
 
     def __init__(self, name, hp_player, power_attack_player, heal_player):
         self.name = name
@@ -17,7 +17,7 @@ class Creature:
         self.heal = heal_player
 
     def attack(self, enemy, player):
-        '''Персонаж атакует.'''
+        """Персонаж атакует."""
         print(f'Количество здоровья {enemy.name} до удара: {enemy.hp}')
         print(f"{player.name} атакует!")
         enemy.hp -= self.power_attack
@@ -27,7 +27,7 @@ class Creature:
         os.system("cls")
 
     def healing(self, count, test, hero, player):
-        '''Персонаж лечится.'''
+        """Персонаж лечится."""
         if count != 2 and hero.hp != test:
             print(f'Количество здоровья {hero.name} до лечения: {hero.hp}')
             if hero.name == player.name:
@@ -57,12 +57,12 @@ class Creature:
 
 
 class Hero(Creature):
-    '''Дочерний класс нашего героя.'''
+    """Дочерний класс нашего героя."""
     pass
 
 
 class Monster(Creature):
-    '''Дочерний класс монстра.'''
+    """Дочерний класс монстра."""
     pass
 
 
@@ -75,19 +75,19 @@ test_monster = monster.hp
 
 
 def asking():
-    '''Принимаем главную информацию.'''
+    """ Принимаем главную информацию."""
     print(f'Имя вашего героя: {player.name}')
     print(f'Имя монстра: {monster.name}')
     time.sleep(2)
 
 
 def game(player, monster, test_player, test_monster):
-    '''Запук игры.'''
+    """Запук игры."""
     while player.hp > 0 and monster.hp > 0:
         chance = random.randint(1, 2)
 
         def chance_func():
-            '''Основная функиция игры.'''
+            """Основная функиция игры."""
             if chance == 1:
                 print("Вы будете вытягивать жребий...")
                 time.sleep(0.5)
@@ -135,7 +135,7 @@ def game(player, monster, test_player, test_monster):
 
 
 def finish(monster, player):
-    '''Завершение игры.'''
+    """Завершение игры."""
     if monster.hp <= 0 and player.hp <= 0:
         print("Поздравляю вы выиграли!")
 
