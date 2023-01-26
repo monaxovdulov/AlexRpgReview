@@ -22,6 +22,9 @@ class Creature:
         self.power_attack = power_attack_player
         self.heal = heal_player
 
+    def get_action(self):
+        return random.choice((ACTION_ATTACK, ACTION_HEAL))
+
     def attack(self, enemy, player):
         """Персонаж атакует."""
         print(f'Количество здоровья {enemy.name} до удара: {enemy.hp}')
@@ -138,7 +141,7 @@ def game(player, monster, test_player, test_monster):
                 time.sleep(0.5)
                 print("3...")
                 print(f"Вы не вытянули жребий. Ход: {monster.name}")
-                choice = random.choice((ACTION_ATTACK, ACTION_HEAL))
+                choice = monster.get_action()
                 if choice == ACTION_ATTACK:
                     monster.attack(player, monster)
                 else:
