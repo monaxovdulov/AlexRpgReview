@@ -2,6 +2,10 @@ import random
 import time
 import os
 
+
+MAX_PlAYER_HP = random.randint(40, 50)
+MAX_MONSTER_HP = random.randint(40, 60)
+
 count_player = 0    # TODO: REF
 count_monster = 0   # TODO: REF
 monster_names = ('Dragon', 'Ork', 'The Dead', "Puss in boots", "Shrek")
@@ -68,8 +72,8 @@ class Monster(Creature):  # TODO: REF
 
 
 name_player = input("Как тебя зовут? ")
-player = Hero(name_player, random.randint(40, 50), 10, 10)
-monster = Monster(monster_names[random.randint(0, len(monster_names) - 1)], random.randint(40, 60), 10, 0)  # TODO: REF
+player = Hero(name_player, MAX_PlAYER_HP, 10, 10)
+monster = Monster(monster_names[random.randint(0, len(monster_names) - 1)], MAX_MONSTER_HP, 10, 0)  # TODO: REF
 
 test_player = player.hp  # TODO: REF
 test_monster = monster.hp   # TODO: REF
