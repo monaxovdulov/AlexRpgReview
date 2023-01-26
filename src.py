@@ -2,6 +2,8 @@ import random
 import time
 import os
 
+ACTION_ATTACK = 1
+ACTION_HEAL = 2
 
 MAX_PlAYER_HP = random.randint(40, 50)
 MAX_MONSTER_HP = random.randint(40, 60)
@@ -104,22 +106,28 @@ def game(player, monster, test_player, test_monster):
                 print("Вы вытянули жребий! Поздравляю вы играете первым!")
                 try:
                     choice = int(input(
-                        "Что вы хотите сделать?\t\n1.Атакавать\n2.Лечиться (не стоит лечиться если у вас и так полное здоровье и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
+                        "Что вы хотите сделать?\t\n1.Атакавать\n"
+                        "2.Лечиться (не стоит лечиться если у вас и так полное здоровье "
+                        "и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
                 except Exception:   # TODO: REF
                     print("Введите число!")
                     choice = int(input(
-                        "Что вы хотите сделать?\t\n1.Атакавать\n2.Лечиться (не стоит лечиться если у вас и так полное здоровье и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
-                if choice == 1:
+                        f"Что вы хотите сделать?\t\n{ACTION_ATTACK}.Атакавать\n"
+                        f"{ACTION_HEAL}.Лечиться (не стоит лечиться если у вас и так полное здоровье"
+                        " и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
+                if choice == ACTION_ATTACK:
                     player.attack(monster, player)
-                elif choice == 2:
+                elif choice == ACTION_HEAL:
                     player.healing(count_player, test_player, player, player)
                 else:
                     print("Варианта только два!")
                     choice = int(input(
-                        "Что вы хотите сделать?\t\n1.Атакавать\n2.Лечиться (не стоит лечиться если у вас и так полное здоровье и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
-                    if choice == 1:
+                        f"Что вы хотите сделать?\t\n{ACTION_ATTACK}.Атакавать\n"
+                        f"{ACTION_HEAL}.Лечиться (не стоит лечиться если у вас и так полное здоровье и"
+                        f" ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
+                    if choice == ACTION_ATTACK:
                         player.attack(monster, player)
-                    elif choice == 2:
+                    elif choice == ACTION_HEAL:
                         player.healing(count_player, test_player, player, player)
             else:
                 print("Вы будете вытягивать жребий...")
@@ -130,8 +138,8 @@ def game(player, monster, test_player, test_monster):
                 time.sleep(0.5)
                 print("3...")
                 print(f"Вы не вытянули жребий. Ход: {monster.name}")
-                choice = random.randint(1, 2)
-                if choice == 1:
+                choice = random.choice((ACTION_ATTACK, ACTION_HEAL))
+                if choice == ACTION_ATTACK:
                     monster.attack(player, monster)
                 else:
                     monster.healing(count_monster, test_monster, monster, player)
