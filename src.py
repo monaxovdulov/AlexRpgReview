@@ -2,8 +2,8 @@ import random
 import time
 import os
 
-count_player = 0
-count_monster = 0
+count_player = 0    # TODO: REF
+count_monster = 0   # TODO: REF
 monster_names = ('Dragon', 'Ork', 'The Dead', "Puss in boots", "Shrek")
 
 
@@ -30,7 +30,7 @@ class Creature:
         """Персонаж лечится."""
         if count != 2 and hero.hp != test:
             print(f'Количество здоровья {hero.name} до лечения: {hero.hp}')
-            if hero.name == player.name:
+            if hero.name == player.name:    # TODO: REF
                 print(f"Вы лечитесь!")
             else:
                 print(f'{hero.name} решает полечиться!')
@@ -44,11 +44,11 @@ class Creature:
         else:
             print("Попытки лечения кончились! Лечиться больше нельзя!")
         if hero.name == player.name:
-            global count_player
+            global count_player  # TODO: REF
             if count_player <= 2:
                 count_player += 1
         else:
-            global count_monster
+            global count_monster    # TODO: REF
             if count_monster <= 2:
                 count_monster += 1
 
@@ -56,22 +56,23 @@ class Creature:
         os.system("cls")
 
 
-class Hero(Creature):
+class Hero(Creature):   # TODO: REF
     """Дочерний класс нашего героя."""
     pass
 
 
-class Monster(Creature):
+class Monster(Creature):  # TODO: REF
+
     """Дочерний класс монстра."""
     pass
 
 
 name_player = input("Как тебя зовут? ")
 player = Hero(name_player, random.randint(40, 50), 10, 10)
-monster = Monster(monster_names[random.randint(0, len(monster_names) - 1)], random.randint(40, 60), 10, 0)
+monster = Monster(monster_names[random.randint(0, len(monster_names) - 1)], random.randint(40, 60), 10, 0)  # TODO: REF
 
-test_player = player.hp
-test_monster = monster.hp
+test_player = player.hp  # TODO: REF
+test_monster = monster.hp   # TODO: REF
 
 
 def asking():
@@ -86,7 +87,7 @@ def game(player, monster, test_player, test_monster):
     while player.hp > 0 and monster.hp > 0:
         chance = random.randint(1, 2)
 
-        def chance_func():
+        def chance_func():  # TODO: REF
             """Основная функиция игры."""
             if chance == 1:
                 print("Вы будете вытягивать жребий...")
@@ -100,7 +101,7 @@ def game(player, monster, test_player, test_monster):
                 try:
                     choice = int(input(
                         "Что вы хотите сделать?\t\n1.Атакавать\n2.Лечиться (не стоит лечиться если у вас и так полное здоровье и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
-                except Exception:
+                except Exception:   # TODO: REF
                     print("Введите число!")
                     choice = int(input(
                         "Что вы хотите сделать?\t\n1.Атакавать\n2.Лечиться (не стоит лечиться если у вас и так полное здоровье и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
@@ -146,6 +147,6 @@ def finish(monster, player):
         print("Вы проиграли. В следующий раз повезёт!")
 
 
-asking()
-game(player, monster, test_player, test_monster)
-finish(monster, player)
+asking()    # TODO: REF
+game(player, monster, test_player, test_monster)  # TODO: REF
+finish(monster, player)  # TODO: REF
