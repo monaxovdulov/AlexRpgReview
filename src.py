@@ -8,19 +8,21 @@ ACTION_HEAL = 2
 MAX_PlAYER_HP = random.randint(40, 50)
 MAX_MONSTER_HP = random.randint(40, 60)
 
-count_player = 0    # TODO: REF
-count_monster = 0   # TODO: REF
+COUNT_HEAL = 2
+
+count_player = 0  # TODO: REF
+count_monster = 0  # TODO: REF
 monster_names = ('Dragon', 'Ork', 'The Dead', "Puss in boots", "Shrek")
 
 
 class Creature:
     """Родительский класс сушество."""
-
-    def __init__(self, name, hp_player, power_attack_player, heal_player):
-        self.name = name
-        self.hp = hp_player
-        self.power_attack = power_attack_player
-        self.heal = heal_player
+    name = ""
+    hp = 0
+    power_attack = 0
+    heal = 0
+    count_heal = COUNT_HEAL
+    max_hp = 0
 
     def get_action(self):
         return random.choice((ACTION_ATTACK, ACTION_HEAL))
@@ -35,53 +37,60 @@ class Creature:
         time.sleep(2)
         os.system("cls")
 
-    def healing(self, count, test, hero, player):
+    def healing(self):
         """Персонаж лечится."""
-        if count != 2 and hero.hp != test:
-            print(f'Количество здоровья {hero.name} до лечения: {hero.hp}')
-            if hero.name == player.name:    # TODO: REF
-                print(f"Вы лечитесь!")
-            else:
-                print(f'{hero.name} решает полечиться!')
+        if self.count_heal > 0 and self.hp != self.max_hp:
+            print(f'Количество здоровья {self.name} до лечения: {self.hp}')
+            print(f'{self.name} решает полечиться!')
             time.sleep(2)
-            hero.hp += 10
-            print(f'Количество здоровья {hero.name} после лечения: {hero.hp}')
-        elif count != 2:
+            self.hp += self.heal
+            print(f'Количество здоровья {self.name} после лечения: {self.hp}')
+            self.count_heal -= 1
+            print(f'У вас осталось лечения: {self.count_heal}')
+        elif self.hp == self.max_hp:
             print(
-                "Почему", hero.name,
+                "Почему", self.name,
                 "меня не послушали? Вы что думали что максивальное здоровье увеличится? В следующий раз будешь лучше меня слушать!")
+            print(f'У вас осталось лечения: {self.count_heal}')
         else:
             print("Попытки лечения кончились! Лечиться больше нельзя!")
-        if hero.name == player.name:
-            global count_player  # TODO: REF
-            if count_player <= 2:
-                count_player += 1
-        else:
-            global count_monster    # TODO: REF
-            if count_monster <= 2:
-                count_monster += 1
-
         time.sleep(4)
         os.system("cls")
 
 
-class Hero(Creature):   # TODO: REF
+class Hero(Creature):  # TODO: REF
     """Дочерний класс нашего героя."""
-    pass
+
+    def __init__(self, name, power_attack, heal):
+        self.name = name
+        self.hp = MAX_PlAYER_HP
+        self.power_attack = power_attack
+        self.heal = heal
+        self.max_hp = MAX_PlAYER_HP
+
+    def get_action(self):
+        return random.choice((ACTION_ATTACK, ACTION_HEAL))
 
 
 class Monster(Creature):  # TODO: REF
 
     """Дочерний класс монстра."""
-    pass
+
+    def __init__(self, name, power_attack, heal):
+        self.name = name
+        self.hp = MAX_MONSTER_HP
+        self.power_attack = power_attack
+        self.heal = heal
+        self.max_hp = MAX_MONSTER_HP
 
 
 name_player = input("Как тебя зовут? ")
-player = Hero(name_player, MAX_PlAYER_HP, 10, 10)
-monster = Monster(monster_names[random.randint(0, len(monster_names) - 1)], MAX_MONSTER_HP, 10, 0)  # TODO: REF
+player = Hero(name_player, power_attack=10, heal=10)
+monster_name = random.choice(monster_names)
+monster = Monster(monster_name, power_attack=10, heal=0)  # TODO: REF
 
 test_player = player.hp  # TODO: REF
-test_monster = monster.hp   # TODO: REF
+test_monster = monster.hp  # TODO: REF
 
 
 def asking():
@@ -112,7 +121,7 @@ def game(player, monster, test_player, test_monster):
                         "Что вы хотите сделать?\t\n1.Атакавать\n"
                         "2.Лечиться (не стоит лечиться если у вас и так полное здоровье "
                         "и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
-                except Exception:   # TODO: REF
+                except Exception:  # TODO: REF
                     print("Введите число!")
                     choice = int(input(
                         f"Что вы хотите сделать?\t\n{ACTION_ATTACK}.Атакавать\n"
@@ -121,7 +130,7 @@ def game(player, monster, test_player, test_monster):
                 if choice == ACTION_ATTACK:
                     player.attack(monster, player)
                 elif choice == ACTION_HEAL:
-                    player.healing(count_player, test_player, player, player)
+                    player.healing()
                 else:
                     print("Варианта только два!")
                     choice = int(input(
@@ -131,7 +140,7 @@ def game(player, monster, test_player, test_monster):
                     if choice == ACTION_ATTACK:
                         player.attack(monster, player)
                     elif choice == ACTION_HEAL:
-                        player.healing(count_player, test_player, player, player)
+                        player.healing()
             else:
                 print("Вы будете вытягивать жребий...")
                 time.sleep(0.5)
@@ -145,7 +154,7 @@ def game(player, monster, test_player, test_monster):
                 if choice == ACTION_ATTACK:
                     monster.attack(player, monster)
                 else:
-                    monster.healing(count_monster, test_monster, monster, player)
+                    monster.healing()
 
         chance_func()
 
@@ -162,6 +171,6 @@ def finish(monster, player):
         print("Вы проиграли. В следующий раз повезёт!")
 
 
-asking()    # TODO: REF
+asking()  # TODO: REF
 game(player, monster, test_player, test_monster)  # TODO: REF
 finish(monster, player)  # TODO: REF
