@@ -10,8 +10,6 @@ MAX_MONSTER_HP = random.randint(40, 60)
 
 COUNT_HEAL = 2
 
-count_player = 0  # TODO: REF
-count_monster = 0  # TODO: REF
 monster_names = ('Dragon', 'Ork', 'The Dead', "Puss in boots", "Shrek")
 
 
@@ -27,10 +25,10 @@ class Creature:
     def get_action(self):
         return random.choice((ACTION_ATTACK, ACTION_HEAL))
 
-    def attack(self, enemy, player):
+    def attack(self, enemy):
         """Персонаж атакует."""
         print(f'Количество здоровья {enemy.name} до удара: {enemy.hp}')
-        print(f"{player.name} атакует!")
+        print(f"{self.name} атакует!")
         enemy.hp -= self.power_attack
         time.sleep(2)
         print(f'Количество здоровья {enemy.name} после удара: {enemy.hp}')
@@ -128,7 +126,7 @@ def game(player, monster, test_player, test_monster):
                         f"{ACTION_HEAL}.Лечиться (не стоит лечиться если у вас и так полное здоровье"
                         " и ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
                 if choice == ACTION_ATTACK:
-                    player.attack(monster, player)
+                    player.attack(enemy=monster)
                 elif choice == ACTION_HEAL:
                     player.healing()
                 else:
@@ -138,7 +136,7 @@ def game(player, monster, test_player, test_monster):
                         f"{ACTION_HEAL}.Лечиться (не стоит лечиться если у вас и так полное здоровье и"
                         f" ещё нельзя лечиться более двух раз имей ввиду говорю один раз!)\n"))
                     if choice == ACTION_ATTACK:
-                        player.attack(monster, player)
+                        player.attack(enemy=monster)
                     elif choice == ACTION_HEAL:
                         player.healing()
             else:
@@ -152,7 +150,7 @@ def game(player, monster, test_player, test_monster):
                 print(f"Вы не вытянули жребий. Ход: {monster.name}")
                 choice = monster.get_action()
                 if choice == ACTION_ATTACK:
-                    monster.attack(player, monster)
+                    monster.attack(enemy=player)
                 else:
                     monster.healing()
 
